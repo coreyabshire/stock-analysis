@@ -1,9 +1,15 @@
 #!/bin/bash
 
-#SBATCH -N 4
-#SBATCH --tasks-per-node=24
-#SBATCH --time=00:30:00
-#SBATCH --mail-type=END,FAIL
+#SBATCH -A dcabshir
+#SBATCH -N 1
+#SBATCH --tasks-per-node=12
+#SBATCH --time=12:00:00
+#SBATCH --partition=delta
+#SBATCH --requeue
+
+ulimit -l unlimited
+
+#####SBATCH --mail-type=END,FAIL
 
 cp=$HOME/.m2/repository/com/google/guava/guava/15.0/guava-15.0.jar:$HOME/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:$HOME/.m2/repository/edu/indiana/soic/spidal/common/1.0-SNAPSHOT/common-1.0-SNAPSHOT.jar:$HOME/.m2/repository/habanero-java-lib/habanero-java-lib/0.1.1/habanero-java-lib-0.1.1.jar:$HOME/.m2/repository/ompi/ompijavabinding/1.8.1/ompijavabinding-1.8.1.jar:$HOME/.m2/repository/edu/indiana/soic/spidal/damds/1.0-ompi1.8.1/damds-1.0-ompi1.8.1-jar-with-dependencies.jar:$HOME/.m2/repository/edu/indiana/soic/spidal/stocks/1.0-ompi1.8.1/stocks-1.0-ompi1.8.1-jar-with-dependencies.jar:$HOME/.m2/repository/net/openhft/affinity/3.0/affinity-3.0.jar:$HOME/.m2/repository/net/openhft/lang/6.7.2/lang-6.7.2.jar
 

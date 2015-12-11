@@ -40,12 +40,18 @@ for f in $MATRIX_FILES
 do
   filename="${f##*/}"
   filenameWithoutExtension="${filename%.*}"
-  echo $filename
-  vf=$VECTOR_BASE$filename
-  echo $vf
-  no_of_lines=`sed -n '$=' $vf`
-  echo $no_of_lines
-  sbatch internal_mds_weighted.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $WEIGHTS_DIR/$filename $DAMDS_SUMMARY_DIR/$filenameWithoutExtension
+  if [ ! -f $POINTS_DIR/${filenameWithoutExtension}.txt ]
+  then
+    echo $filename
+    vf=$VECTOR_BASE$filename
+    echo $vf
+    no_of_lines=`sed -n '$=' $vf`
+    echo $no_of_lines
+    echo sbatch internal_mds_weighted.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $WEIGHTS_DIR/$filename $DAMDS_SUMMARY_DIR/$filenameWithoutExtension >>commands.sh
+    sbatch internal_mds_weighted.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $WEIGHTS_DIR/$filename $DAMDS_SUMMARY_DIR/$filenameWithoutExtension
+  else
+    echo $POINTS_DIR/${filenameWithoutExtension}.txt already exists, skipping
+  fi
 done
 
 MATRIX_FILES=$GLOBAL_MATRIX_DIR/*
@@ -54,11 +60,17 @@ for f in $MATRIX_FILES
 do
   filename="${f##*/}"
   filenameWithoutExtension="${filename%.*}"
-  echo $filename
-  vf=$VECTOR_BASE$filename
-  echo $vf
-  no_of_lines=`sed -n '$=' $vf`
-  echo $no_of_lines
-  sbatch internal_mds_weighted.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_WEIGHTS_DIR/$filename $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension
+  if [ ! -f $GLOBAL_POINTS_DIR/${filenameWithoutExtension}.txt ]
+  then
+    echo $filename
+    vf=$VECTOR_BASE$filename
+    echo $vf
+    no_of_lines=`sed -n '$=' $vf`
+    echo $no_of_lines
+    echo sbatch internal_mds_weighted.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_WEIGHTS_DIR/$filename $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension >>commands.sh
+    sbatch internal_mds_weighted.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_WEIGHTS_DIR/$filename $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension
+  else
+    echo $GLOBAL_POINTS_DIR/${filenameWithoutExtension}.txt already exists, skipping
+  fi
 done
 

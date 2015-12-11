@@ -6,10 +6,10 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-uuid=$2
-email=$3
-account=$4
-noglobal=$5
+#uuid=$2
+#email=$3
+#account=$4
+#noglobal=$5
 
 # change these to change the directories
 BASE_DIR=$1
@@ -42,27 +42,41 @@ for f in $MATRIX_FILES
 do
   filename="${f##*/}"
   filenameWithoutExtension="${filename%.*}"
-  echo $filename
-  vf=$VECTOR_BASE$filename
-  echo $vf
-  no_of_lines=`sed -n '$=' $vf`
-  echo $no_of_lines
-  sbatch --job-name $uuid --mail-user $email --account $account internal_mds.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $DAMDS_SUMMARY_DIR/$filenameWithoutExtension
+  if [ ! -f $POINTS_DIR/${filenameWithoutExtension}.txt ]
+  then
+    echo $filename
+    vf=$VECTOR_BASE$filename
+    echo $vf
+    no_of_lines=`sed -n '$=' $vf`
+    echo $no_of_lines
+    #sbatch --job-name $uuid --mail-user $email --account $account internal_mds.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $DAMDS_SUMMARY_DIR/$filenameWithoutExtension
+    echo sbatch internal_mds.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $DAMDS_SUMMARY_DIR/$filenameWithoutExtension >> commands.sh
+    sbatch internal_mds.sh $f $no_of_lines $POINTS_DIR/$filenameWithoutExtension $DAMDS_SUMMARY_DIR/$filenameWithoutExtension
+  else
+    echo $POINTS_DIR/${filenameWithoutExtension}.txt already exists, skipping
+  fi
 done
 
-if [ "$noglobal" != true ]
-then
+#if [ "$noglobal" != true ]
+#then
 MATRIX_FILES=$GLOBAL_MATRIX_DIR/*
 VECTOR_BASE=$GLOBAL_VECTORS_DIR/
 for f in $MATRIX_FILES
 do
   filename="${f##*/}"
   filenameWithoutExtension="${filename%.*}"
-  echo $filename
-  vf=$VECTOR_BASE$filename
-  echo $vf
-  no_of_lines=`sed -n '$=' $vf`
-  echo $no_of_lines
-  sbatch --job-name $uuid --mail-user $email --account $account internal_mds.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension
+  if [ ! -f $GLOBAL_POINTS_DIR/${filenameWithoutExtension}.txt ]
+  then
+    echo $filename
+    vf=$VECTOR_BASE$filename
+    echo $vf
+    no_of_lines=`sed -n '$=' $vf`
+    echo $no_of_lines
+    #sbatch --job-name $uuid --mail-user $email --account $account internal_mds.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension
+    echo sbatch internal_mds.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension >> commands.sh
+    sbatch internal_mds.sh $f $no_of_lines $GLOBAL_POINTS_DIR/$filenameWithoutExtension $GLOBAL_DAMDS_SUMMARY/$filenameWithoutExtension
+  else
+    echo $GLOBAL_POINTS_DIR/${filenameWithoutExtension}.txt already exists, skipping
+  fi
 done
-fi
+#fi

@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # this is a test file so that I can integrate this later to postproc.sh
-YEARLY_MDS_DIR_NAME=/N/u/skamburu/data/2004_2014_AUG_24/mds/unweighted/yearly
-YEARLY_DISTANCES_DIR_NAME=/N/u/skamburu/data/2004_2014_AUG_24/preproc/yearly/distances
-YEARLY_HEATMAP_DIR=/N/u/skamburu/data/2004_2014_AUG_24/postproc/unweighted/yearly/heatmap
+YEARLY_MDS_DIR_NAME=/N/u/dcabshir/data/2004_2014_AUG_24/mds/unweighted/yearly
+YEARLY_DISTANCES_DIR_NAME=/N/u/dcabshir/data/2004_2014_AUG_24/preproc/yearly/distances
+YEARLY_HEATMAP_DIR=/N/u/dcabshir/data/2004_2014_AUG_24/postproc/unweighted/yearly/heatmap
 
 HEAT_POINTS=$YEARLY_MDS_DIR_NAME/*
 for f in $HEAT_POINTS
